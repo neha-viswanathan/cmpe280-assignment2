@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Registration Page</title>
+	<style type="text/css">
+		hr {
+			width: 95%;
+			height: 5px;
+			margin-left: 0px;
+			background-color:#9370DB;
+			
+		}
+		label {
+			display: inline-block;
+			float: left;
+			text-align: right;
+			width: 110px;
+		}
+		progress {
+  		    border: none; 
+		}	
+
+	</style>
+
+	<script type="text/javascript">
+		function checkPwd() {
+			var score=0;
+			var desc = new Array();
+			desc[0] = "Weak";
+			desc[1] = "O.K.";
+			desc[2] = "Medium";
+			desc[3] = "Strong";
+			desc[4] = "Excellent";
+
+			var pass = document.getElementById("password").value;
+			var len = pass.length;
+			if(len>6 && len<20) {
+				score++;
+			}
+			var exp1 = new RegExp("[a-z]{2}");
+			if(exp1.test(pass) == true) {
+				score++;
+			}
+
+			var exp2 = new RegExp("[A-Z]{3}");
+			if(exp2.test(pass) == true) {
+				score++;
+			}
+
+			var exp3 = new RegExp("[!@#$%^&*-]{2}");
+			if(exp3.test(pass) == true) {
+				score++;
+			}
+			
+			var prog = document.getElementById("progbar");
+			prog.value = score;
+			var progVal = document.getElementById("div1");
+			progVal.innerHTML = desc[score];
+	
+		}
+		function pwdMatch() {
+			var pwd1 = document.getElementById("password");
+			var pwd2 = document.getElementById("confpass");
+			var msg = document.getElementById("confirmMessage");
+
+			var good = "#228B22";
+			var bad = "#FF0000";
+
+			if(pwd1.value == pwd2.value) {
+				msg.style.color = good;
+				msg.innerHTML = "Passwords match!";
+			}else {
+				msg.style.color = bad;
+				msg.innerHTML = "Oops! Passwords do not match!";
+			}
+		}
+
+		function store() {
+			sessionStorage.fname = document.getElementById
+("fname").value;
+			sessionStorage.lname = document.getElementById
+("lname").value;
+			sessionStorage.email = document.getElementById
+("email").value;
+			sessionStorage.password = document.getElementById
+("password").value;
+			sessionStorage.confpass = document.getElementById
+("confpass").value;
+			sessionStorage.dob = document.getElementById
+("dob").value;
+			sessionStorage.time = document.getElementById
+("time").value;
+			sessionStorage.dobtime = document.getElementById
+("dobtime").value;
+			sessionStorage.ssnum = document.getElementById
+("ssnum").value;
+			sessionStorage.phn = document.getElementById
+("phn").value;
+			sessionStorage.ccnum = document.getElementById
+("ccnum").value;
+		}
+	</script>	
+</head>
+
+<body>
+	<header><h1>User Registration</h1><hr><br></header>
+	<form>
+		<label for="fname">First Name </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" name="fname" id="fname" placeholder="Enter first name" autofocus required /><br><br>
+		<label for="lname">Last Name </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" name="lname" id="lname" placeholder="Enter last name" autofocus required /><br><br>
+		<label for="email">Email </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="email" name="email" id="email" placeholder="Enter valid email" autofocus required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" /><br><br>
+		<label for="password">Password </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="password" name="password" id="password" placeholder="Enter a password" autofocus required style="width: 15%; height: 20px;" onchange="checkPwd()" />
+		<a title="Password must contain minimum 3 upper case, 2 lower case and 2 special chars"><img src="qmark.jpg" height="15px" ></a>
+		<progress id="progbar" value="0" max="4"></progress><div style="display: inline;" id="div1"></div><br><br>
+		<label for="confpass">Confirm Password </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="password" name="confpass" id="confpass" placeholder="Must be same as password" autofocus required style="width: 15%; height: 20px;" onchange="pwdMatch()" /><span id="confirmMessage" class="confirmMessage"></span><br><br>
+		<label for="dob">D.O.B </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="date" name="date" id="dob" /><br><br>
+		<label for="time">D.O.B with Time </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="datetime-local" name="time" id="time" /><br><br>
+		<label for="dobtime">Local D.O.B </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="datetime-local" name="dobtime" id="dobtime" /><br><br>
+		<label for="ssnum">SSN </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="ssn" id="ssnum" placeholder="xxx-xx-xxxx" pattern="\d{3}[\-]\d{2}[\-]\d{4}"/><br><br>
+		<label for="phn">Phone </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="tel" id="phn" placeholder="xxx-xxx-xxxx" pattern="\d{3}[\-]\d{3}[\-]\d{4}" /><br><br>
+		<label for="ccnum">Credit <br>Card No </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" id="ccnum" maxlength="20" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="\d{4}[\-]\d{4}[\-]\d{4}[\-]\d{4}"/><br><br>
+		<label>Security Question </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input list="secq" id="secqu" required /><br><br>
+		<datalist id="secq">
+			<option value="Sum of 2 + 3 = " />
+			<option value="Sum of 100 + 200 = " />
+			<option value="23 * 100 = " />
+			<option value="Capital of India?" />
+			<option value="Capital of USA?" />
+		</datalist>
+		<label for="seca">Security Answer </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" name="seca" id="seca" autofocus required /><br><br>
+		<footer >
+			<input type="submit" value="Create" id="create" onclick="store()" style="margin-left: 50px" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="reset" value="Cancel" id="cancel"/>
+		</footer>
+	</form>
+</body>
+</html>
